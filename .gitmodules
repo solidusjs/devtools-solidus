@@ -1,0 +1,3 @@
+[submodule "views/inspector-json"]
+	path = inspector-json
+	url = https://github.com/SparkartGroupInc/Inspector-JSON.git
