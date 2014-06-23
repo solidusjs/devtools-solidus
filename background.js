@@ -1,5 +1,4 @@
-// Chrome automatically creates a background.html page for this to execute.
-// This can access the inspected page via executeScript
+// Chrome automatically creates a background.html page as the context for this
 //
 // Can use:
 // chrome.tabs.*
@@ -14,11 +13,8 @@ chrome.runtime.onConnect.addListener(function (port) {
         if (i !== -1) ports.splice(i, 1);
     });
     port.onMessage.addListener(function (msg) {
-        if (msg.tabId) {
-          getJsonResource(msg.tabId);
-        } else {
-          console.log(msg);
-        }
+        console.log("Background.js Recieved Message", msg);
+        processBackgroundIncomingMessage(msg);
     });
 });
 
@@ -28,8 +24,18 @@ chrome.tabs.onUpdated.addListener(function (tabId, changes, tabObject) {
   }
 });
 
+function processBackgroundIncomingMessage(msg) {
+  console.log("Processing Message in Background", msg)
+  if (msg.tabId) {
+    getJsonResource(msg.tabId);
+  } else {
+    console.log(msg);
+  }
+}
+
 // Function to send a message to main.js
 function notifyDevtools(msg) {
+    console.log("Background.js Sending Message", msg);
     ports.forEach(function (port) {
         port.postMessage(msg);
     });
@@ -42,9 +48,12 @@ function getJsonResource(tabID) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", jsonResourceURL, true);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        var resp = JSON.parse(xhr.responseText);
-        notifyDevtools(xhr.responseText);
+      if (xhr.readyState === 4){
+        if(xhr.status === 200){
+          notifyDevtools(xhr.responseText);
+        } else { //This isn't quite right, because it fires when it shouldnt
+          notifyDevtools("Bad Response");
+        }
       }
     }
     xhr.send();
