@@ -4,32 +4,30 @@
 // chrome.devtools.*
 // chrome.extension.*
 
+var inspector;
+
 function processMainIncomingMessage(msg) {
   console.log("Devpanel Processing Message", msg);
-  var msgJson = 0;
-  try {
-    msgJson = JSON.parse(msg); //This doesn't work if it's not a JSON string
-  } catch  (e) {
-    console.log("Ooops, the message wasnt a JSON string");
-  }
- if (msgJson.hasOwnProperty('page')) {
-    console.log("Message contains page object!");
-    updateInspectorJSON(msg);
-  } else if (msg === "Bad Response") {
-    displayMessage("This isnt what we need");
-  } else {
-    console.log("Ooops!", msg.page);
-  }
-}
-
-function updateInspectorJSON(msg) {
-    if(!inspector) {
-        var inspector = new InspectorJSON({
-          element: 'pagecontext',
-          json: '{"hello":"world"}'
+  if (msg.hasOwnProperty('page')) {
+    displayMessage("Looks like a Solidus page!");
+    //Check if there is an initialized InspectorJSON that hasn't been destroyed
+    if ((inspector instanceof InspectorJSON) && (inspector.page)) {
+      inspector.view(msg);
+    }
+    else {
+      inspector = new InspectorJSON({
+        element: 'pagecontext',
+        json: msg
       });
     }
-    inspector.view(msg);
+  } else if (msg.hasOwnProperty('error')) {
+    if (inspector instanceof InspectorJSON) {
+      inspector.destroy();
+    }
+    displayMessage(msg.error);
+  } else {
+    console.log("Message Not Processed", msg);
+  }
 }
 
 function displayMessage(msg) {

@@ -42,17 +42,22 @@ function notifyDevtools(msg) {
 }
 
 function getJsonResource(tabID) {
+  var pageContext;
   chrome.tabs.get(tabID, function(tab) {
-    //Before doing this, we should check if it is a Solidus tab
     var jsonResourceURL = tab.url+".json";
     var xhr = new XMLHttpRequest();
     xhr.open("GET", jsonResourceURL, true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4){
         if(xhr.status === 200){
-          notifyDevtools(xhr.responseText);
-        } else { //This isn't quite right, because it fires when it shouldnt
-          notifyDevtools("Bad Response");
+          try {
+            pageContext = JSON.parse(xhr.responseText);
+            notifyDevtools(pageContext);
+          } catch  (e) {
+            notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
+          }
+        } else {
+          notifyDevtools(JSON.parse('{"error":"No Solidus Page Context Found"}'));
         }
       }
     }
