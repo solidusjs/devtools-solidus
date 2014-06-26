@@ -49,17 +49,18 @@ function getJsonResource(tabID) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", jsonResourceURL, true);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4){
-        if(xhr.status === 200){
+      if (xhr.readyState === 4 && xhr.getResponseHeader("X-Powered-By") === "Express") {
+        if(xhr.status === 200){ //Check this separately so we can notify devtools if we don't get a 200 response.
           try {
-            pageContext = JSON.parse(xhr.responseText);
-            notifyDevtools(pageContext);
+            notifyDevtools(JSON.parse(xhr.responseText));
           } catch  (e) {
             notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
           }
         } else {
-          notifyDevtools(JSON.parse('{"error":"No Solidus Page Context Found!"}'));
+          notifyDevtools(JSON.parse('{"error":"Solidus Page Context Not Found!"}'));
         }
+      } else {
+        notifyDevtools(JSON.parse('{"error":"Looks like you\'re not inspecting a Solidus Page."}'));
       }
     }
     xhr.send();
