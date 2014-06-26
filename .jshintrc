@@ -1,6 +1,8 @@
 {
   "browser": true,
+  "camelcase": true,
   "devel": true,
+  "eqeqeq": true,
   "immed": true,
   "maxlen": 80,
   "noarg": true,
