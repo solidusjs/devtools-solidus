@@ -3,7 +3,7 @@
 // Can use:
 // chrome.tabs.*
 // chrome.extension.*
-
+var tabInspected;
 var ports = [];
 chrome.runtime.onConnect.addListener(function (port) {
     if (port.name !== "devtools") return;
@@ -19,7 +19,7 @@ chrome.runtime.onConnect.addListener(function (port) {
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changes, tabObject) {
-  if (changes.status == "complete") {
+  if (tabId == tabInspected && changes.status == "complete") {
     getJsonResource(tabId);
   }
 });
@@ -27,7 +27,8 @@ chrome.tabs.onUpdated.addListener(function (tabId, changes, tabObject) {
 function processBackgroundIncomingMessage(msg) {
   console.log("Processing Message in Background", msg)
   if (msg.tabId) {
-    getJsonResource(msg.tabId);
+    tabInspected = msg.tabId;
+    getJsonResource(tabInspected);
   } else {
     console.log(msg);
   }
@@ -57,7 +58,7 @@ function getJsonResource(tabID) {
             notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
           }
         } else {
-          notifyDevtools(JSON.parse('{"error":"No Solidus Page Context Found"}'));
+          notifyDevtools(JSON.parse('{"error":"No Solidus Page Context Found!"}'));
         }
       }
     }
