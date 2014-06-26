@@ -49,7 +49,7 @@ function getJsonResource(tabID) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", jsonResourceURL, true);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.getResponseHeader("X-Powered-By") === "Express") {
+      if (xhr.readyState === 4 && xhr.getResponseHeader("X-Powered-By").substring(0, 7) === "Solidus") {
         if(xhr.status === 200){ //Check this separately so we can notify devtools if we don't get a 200 response.
           try {
             notifyDevtools(JSON.parse(xhr.responseText));
