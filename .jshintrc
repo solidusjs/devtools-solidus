@@ -1,0 +1,12 @@
+{
+  "browser": true,
+  "devel": true,
+  "immed": true,
+  "maxlen": 80,
+  "noarg": true,
+  "predef": [ "chrome", "InspectorJSON" ],
+  "quotmark": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
+}
