@@ -50,7 +50,7 @@ function getJsonResource(tabID) {
     xhr.open('GET', jsonResourceURL, true);
     xhr.onreadystatechange = function() {
       var isSolidus, errMsg;
-      isSolidus = (xhr.getResponseHeader('X-Powered-By').match(/Express/i));
+      isSolidus = (xhr.getResponseHeader('X-Powered-By').match(/Solidus/i));
       if (xhr.readyState === 4 && isSolidus) { // Is complete Solidus response?
         if(xhr.status !== 200){ // Check that Solidus response didn't fail
           errMsg = 'Failed to get Solidus context. Status: ' + xhr.status;
