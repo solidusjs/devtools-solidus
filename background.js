@@ -3,6 +3,7 @@
 // Can use:
 // chrome.tabs.*
 // chrome.extension.*
+
 var tabInspected;
 var ports = [];
 chrome.runtime.onConnect.addListener(function (port) {
@@ -18,14 +19,14 @@ chrome.runtime.onConnect.addListener(function (port) {
     });
 });
 
-chrome.tabs.onUpdated.addListener(function (tabId, changes, tabObject) {
-  if (tabId == tabInspected && changes.status == "complete") {
+chrome.tabs.onUpdated.addListener(function (tabId, changes) {
+  if (tabId === tabInspected && changes.status === "complete") {
     getJsonResource(tabId);
   }
 });
 
 function processBackgroundIncomingMessage(msg) {
-  console.log("Processing Message in Background", msg)
+  console.log("Processing Message in Background", msg);
   if (msg.tabId) {
     tabInspected = msg.tabId;
     getJsonResource(tabInspected);
@@ -43,26 +44,26 @@ function notifyDevtools(msg) {
 }
 
 function getJsonResource(tabID) {
-  var pageContext;
   chrome.tabs.get(tabID, function(tab) {
     var jsonResourceURL = tab.url+".json";
     var xhr = new XMLHttpRequest();
     xhr.open("GET", jsonResourceURL, true);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.getResponseHeader("X-Powered-By").substring(0, 7) === "Solidus") {
-        if(xhr.status === 200){ //Check this separately so we can notify devtools if we don't get a 200 response.
+      var isSolidus = (xhr.getResponseHeader("X-Powered-By").substring(0, 7) === "Express");
+      if (xhr.readyState === 4 && isSolidus) { // Check for completed Solidus response
+        if(xhr.status !== 200){ // Check that Solidus response didn't fail
+          notifyDevtools(JSON.parse('{"error":"Failed to get Solidus page context."}'));
+        } else {
           try {
             notifyDevtools(JSON.parse(xhr.responseText));
           } catch  (e) {
             notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
           }
-        } else {
-          notifyDevtools(JSON.parse('{"error":"Solidus Page Context Not Found!"}'));
         }
       } else {
         notifyDevtools(JSON.parse('{"error":"Looks like you\'re not inspecting a Solidus Page."}'));
       }
-    }
+    };
     xhr.send();
   });
 }

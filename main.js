@@ -8,7 +8,7 @@ function(panel){
 
     var _window;
     var data = [];
-    var port = chrome.runtime.connect({name: 'devtools'});
+    var port = chrome.runtime.connect({name: "devtools"});
 
     port.onMessage.addListener(function(msg) {
 
@@ -27,7 +27,8 @@ function(panel){
       _window = panelWindow;
 
       var msg;
-      while (msg = data.shift()) {
+      while (msg === data) {
+        msg = data.shift();
         _window.processMainIncomingMessage(msg);
       }
       _window.respond = function(msg) {
@@ -35,6 +36,7 @@ function(panel){
         port.postMessage(msg);
       };
 
+      //Tell background.js which tab is being inspected
       panelWindow.respond(chrome.devtools.inspectedWindow);
     });
 });

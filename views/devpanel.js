@@ -1,5 +1,4 @@
 // Runs in the context of the DevTools panel
-//
 // Can use
 // chrome.devtools.*
 // chrome.extension.*
@@ -8,19 +7,18 @@ var inspector;
 
 function processMainIncomingMessage(msg) {
   console.log("Devpanel Processing Message", msg);
-  if (msg.hasOwnProperty('page')) {
+  if (msg.hasOwnProperty("page")) {
     displayMessage("Looks like a Solidus page!");
     //Check if there is an initialized InspectorJSON that hasn't been destroyed
     if ((inspector instanceof InspectorJSON) && (inspector.page)) {
       inspector.view(msg);
-    }
-    else {
+    } else {
       inspector = new InspectorJSON({
-        element: 'pagecontext',
+        element: "pagecontext",
         json: msg
       });
     }
-  } else if (msg.hasOwnProperty('error')) {
+  } else if (msg.hasOwnProperty("error")) {
     if (inspector instanceof InspectorJSON) {
       inspector.destroy();
     }
@@ -31,6 +29,6 @@ function processMainIncomingMessage(msg) {
 }
 
 function displayMessage(msg) {
-  document.querySelector('#messageholder').innerHTML = msg;
+  document.querySelector("#messageholder").innerHTML = msg;
   console.log("Updated Panel With Message", msg);
 }
