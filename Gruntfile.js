@@ -16,5 +16,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('test', ['jshint']);
 
 };
