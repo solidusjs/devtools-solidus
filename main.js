@@ -1,35 +1,42 @@
+// Runs in the context of DevTools including devpanel.js
 // Can use
 // chrome.devtools.*
 // chrome.extension.*
 
-chrome.devtools.panels.create("Solidus", "solidus.png", "views/devpanel.html",
+chrome.devtools.panels.create('Solidus', 'solidus.png', 'views/devpanel.html',
 function(panel){
 
-    var _window;
-    var data = [];
-    var port = chrome.runtime.connect({name: 'devtools'});
+  var _window;
+  var data = [];
+  var port = chrome.runtime.connect({name: 'devtools'});
 
-    port.onMessage.addListener(function(msg) {
-      // Send message to devpanel, if it exists.
-      // If there is no panel yet, queue messages for later.
-      if (_window) {
-        _window.sendJsonToInspector(msg);
-      } else {
-        data.push(msg);
-      }
-    });
+  port.onMessage.addListener(function(msg) {
 
-    panel.onShown.addListener(function tmp(panelWindow) {
-      panel.onShown.removeListener(tmp); // Only run first time
-      _window = panelWindow;
+    console.log('Main.js Recieved Message', msg);
+    // Send message to devpanel, if it exists.
+    // If there is no panel yet, queue messages for later.
+    if (_window) {
+      _window.processMainIncomingMessage(msg);
+    } else {
+      data.push(msg);
+    }
+  });
 
-      var msg;
-      while (msg = data.shift())
-      _window.sendJsonToInspector(msg);
-      _window.respond = function(msg) {
-        port.postMessage(msg);
-      };
+  panel.onShown.addListener(function tmp(panelWindow) {
+    panel.onShown.removeListener(tmp); // Only run first time
+    _window = panelWindow;
 
-      panelWindow.respond(chrome.devtools.inspectedWindow);
-    });
+    var msg;
+    while (msg === data) {
+      msg = data.shift();
+      _window.processMainIncomingMessage(msg);
+    }
+    _window.respond = function(msg) {
+      console.log('Main.js Sending Message', msg);
+      port.postMessage(msg);
+    };
+
+    //Tell background.js which tab is being inspected
+    panelWindow.respond(chrome.devtools.inspectedWindow);
+  });
 });

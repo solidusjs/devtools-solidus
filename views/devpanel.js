@@ -1,16 +1,37 @@
-// This runs in the context of the panel in the Dev Tools
-//
+// Runs in the context of the DevTools panel
 // Can use
 // chrome.devtools.*
 // chrome.extension.*
 
-//I think the inspector var needs to be global and just updated here
-function sendJsonToInspector(msg) {
-    if(!inspector) {
-        var inspector = new InspectorJSON({
-          element: 'pagecontext',
-          json: '{"hello":"world"}'
+// Tell JSHint that processMainIncomingMessage is definedhere but used elsewhere
+/* exported processMainIncomingMessage */
+
+var inspector;
+
+function processMainIncomingMessage(msg) {
+  console.log('Devpanel Processing Message', msg);
+  if (msg.hasOwnProperty('page')) {
+    displayMessage('Looks like a Solidus page!');
+    //Check if there is an initialized InspectorJSON that hasn't been destroyed
+    if ((inspector instanceof InspectorJSON) && (inspector.page)) {
+      inspector.view(msg);
+    } else {
+      inspector = new InspectorJSON({
+        element: 'pagecontext',
+        json: msg
       });
     }
-    inspector.view(msg);
+  } else if (msg.hasOwnProperty('error')) {
+    if (inspector instanceof InspectorJSON) {
+      inspector.destroy();
+    }
+    displayMessage(msg.error);
+  } else {
+    console.log('Message Not Processed', msg);
+  }
+}
+
+function displayMessage(msg) {
+  document.querySelector('#messageholder').innerHTML = msg;
+  console.log('Updated Panel With Message', msg);
 }

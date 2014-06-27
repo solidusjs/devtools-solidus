@@ -1,0 +1,15 @@
+{
+  "browser": true,
+  "camelcase": true,
+  "devel": true,
+  "eqeqeq": true,
+  "immed": true,
+  "maxlen": 80,
+  "noarg": true,
+  "predef": [ "chrome", "InspectorJSON" ],
+  "quotmark": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true,
+  "node": true
+}
