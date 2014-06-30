@@ -35,3 +35,13 @@ function displayMessage(msg) {
   document.querySelector('#messageholder').innerHTML = msg;
   console.log('Updated Panel With Message', msg);
 }
+
+var socket = io('http://localhost:8081');
+socket.on('connect', function(){
+  console.log('Socket connected')
+  socket.on('log', function(data){
+    console.log('Socket data: ', data);
+    document.querySelector('#serverlogs').innerHTML += JSON.stringify(data.message) + "<br>";
+    });
+  socket.on('disconnect', function(){console.log('Socket disconnected')});
+});
