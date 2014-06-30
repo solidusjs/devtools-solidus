@@ -8,14 +8,20 @@ module.exports = function(grunt) {
       options: {
         jshintrc: true
       }
+    },
+    jasmine: {
+      src: ['background.js', 'main.js', 'views/*.js'],
+      options: {
+        specs: 'tests/spec/*.spec.js',
+        helpers: 'tests/spec/*.helper.js'
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('test', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'jasmine']);
+  grunt.registerTask('test', ['jshint', 'jasmine']);
 
 };
