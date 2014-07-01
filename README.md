@@ -2,6 +2,11 @@ A Google Chrome developer tools extension for use by [Solidus](https://github.co
 
 **Note:** This is still a work in progress, use at your own risk.
 
+#Build
+* Clone the repo with
+* Run `npm install` to install dependencies
+* (Optional) Chrome will complain about `.pem` files in some of the dependencies, so you can manually delete `node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/test/` to prevent Chrome from warning you when you install the extension.
+
 #Installation
 * Open chrome://extensions
 * Enable 'Developer Mode' checkbox
