@@ -5,6 +5,8 @@
 
 // Tell JSHint that processMainIncomingMessage is definedhere but used elsewhere
 /* exported processMainIncomingMessage */
+// Tell JSHint about the socket.io global
+/* global io */
 
 var inspector;
 
@@ -38,10 +40,10 @@ function displayMessage(msg) {
 
 var socket = io('http://localhost:8081');
 socket.on('connect', function(){
-  console.log('Socket connected')
   socket.on('log', function(data){
-    console.log('Socket data: ', data);
-    document.querySelector('#serverlogs').innerHTML += JSON.stringify(data.message) + "<br>";
+    document.querySelector('#serverlogs').innerHTML += data.message + '\n';
     });
-  socket.on('disconnect', function(){console.log('Socket disconnected')});
+  socket.on('disconnect', function(){
+    document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
+    });
 });
