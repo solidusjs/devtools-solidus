@@ -1,0 +1,33 @@
+{
+  "name": "devtools-solidus",
+  "version": "0.1.0",
+  "homepage": "https://github.com/solidusjs/devtools-solidus",
+  "authors": [
+    "Josiah Sprague <josiah.sprague@gmail.com>",
+    "Eric Lanehart <eric@sparkart.com>"
+  ],
+  "description": "Adds Solidus debugging tools to the Chrome Developer Tools.",
+  "main": "views/devpanel.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "solidus",
+    "devtools",
+    "chrome"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ember": "~1.5.1",
+    "bootstrap": "~3.2.0",
+    "Inspector-JSON": "SparkartGroupInc/Inspector-JSON#~0.1.0"
+  }
+}
