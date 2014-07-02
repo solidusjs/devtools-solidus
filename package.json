@@ -29,6 +29,7 @@
     "grunt-contrib-uglify": "~0.4.0"
   },
   "dependencies": {
-    "Inspector-JSON": "SparkartGroupInc/Inspector-JSON"
+    "Inspector-JSON": "SparkartGroupInc/Inspector-JSON",
+    "socket.io-client": "^1.0.6"
   }
 }
