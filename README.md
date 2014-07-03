@@ -4,7 +4,7 @@ A Google Chrome developer tools extension for use by [Solidus](https://github.co
 
 #Build
 * Clone the repo with `git clone https://github.com/solidusjs/devtools-solidus.git devtools-solidus`
-* Run `npm install` to install dependencies
+* Run `npm install` to install dependencies (npm will automatically run a script to install front-end dependencies using bower).
 * (Optional) Chrome will complain about `.pem` files in some of the dependencies, so you can manually delete `node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/test/` to prevent Chrome from warning you when you install the extension.
 
 #Installation
