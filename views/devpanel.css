@@ -1,0 +1,35 @@
+body, html {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.log-panel {
+  height: 100%;
+  overflow: scroll;
+}
+
+.sidetab-column {
+  height: 100%;
+  padding: 0;
+  position: static;
+}
+
+.panel-column {
+  height: 100%;
+  position: static;
+  padding: 0;
+  width: 70%;
+  padding: 10px;
+}
+
+.tab-content, .tab-pane {
+  height: 100%;
+}
+
+.inspector-json {
+  padding: 0;
+}

@@ -10,25 +10,26 @@
   <link href="../bower_components/Inspector-JSON/inspector-json.css" media="all" rel="stylesheet" type="text/css">
   <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css">
   <link href="../bower_components/bootstrap-vertical-tabs/bootstrap.vertical-tabs.min.css" media="all" rel="stylesheet" type="text/css">
+  <link href="devpanel.css" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div class="col-xs-3">
+  <div class="sidetab-column col-xs-3">
     <ul class="nav nav-tabs tabs-left">
       <li><a href="#context" data-toggle="tab">Context</a></li>
       <li><a href="#logs" data-toggle="tab">Logs</a></li>
       <li><a href="#info" data-toggle="tab">Info</a></li>
     </ul>
   </div>
-  <div class="col-xs-9">
+  <div class="panel-column col-xs-9">
     <div class="tab-content">
       <div class="tab-pane active" id="context">
         <div id="pagecontext"></div>
       </div>
       <div class="tab-pane" id="logs">
-        <pre id="serverlogs"></pre>
+        <pre id="serverlogs" class="log-panel"></pre>
       </div>
       <div class="tab-pane" id="info">
-        <div id="messageholder"></div>
+        <div id="messageholder" class="alert alert-info" role="alert"></div>
       </div>
     </div>
   </div>

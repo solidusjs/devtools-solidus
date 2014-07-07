@@ -42,7 +42,9 @@ function displayMessage(msg) {
 var socket = io('http://localhost:8081');
 socket.on('connect', function(){
   socket.on('log', function(data){
-    document.querySelector('#serverlogs').innerHTML += data.message + '\n';
+    var logContainer = document.querySelector('#serverlogs');
+    logContainer.innerHTML += data.message + '\n';
+    logContainer.scrollTop = logContainer.scrollHeight;
     });
   socket.on('disconnect', function(){
     document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
