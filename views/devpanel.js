@@ -20,6 +20,7 @@ function processMainIncomingMessage(msg) {
     } else {
       inspector = new InspectorJSON({
         element: 'pagecontext',
+        url: msg.url.path,
         json: msg
       });
     }
