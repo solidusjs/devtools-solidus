@@ -34,3 +34,7 @@ body, html {
 .inspector-json {
   padding: 0;
 }
+
+.btn-group {
+  margin-bottom: 10px;
+}

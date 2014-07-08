@@ -50,3 +50,12 @@ socket.on('connect', function(){
     document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
     });
 });
+
+function clearLog() {
+  document.querySelector('#serverlogs').innerHTML = '';
+}
+
+window.onload = function() {
+  var clearButton = document.querySelector('#logclear');
+  clearButton.addEventListener('click', clearLog, false);
+};
