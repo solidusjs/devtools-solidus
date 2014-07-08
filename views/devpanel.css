@@ -7,7 +7,7 @@ body, html {
   right: 0;
 }
 
-.log-panel {
+.scroll-panel {
   height: 100%;
   overflow: scroll;
 }
