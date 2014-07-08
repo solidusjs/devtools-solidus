@@ -11,10 +11,7 @@ function(panel){
   var port = chrome.runtime.connect({name: 'devtools'});
 
   port.onMessage.addListener(function(msg) {
-
-    console.log('Main.js Recieved Message', msg);
-    // Send message to devpanel, if it exists.
-    // If there is no panel yet, queue messages for later.
+    // Send message to devpanel, or queue message if panel isn't shown
     if (_window) {
       _window.processMainIncomingMessage(msg);
     } else {
@@ -23,20 +20,19 @@ function(panel){
   });
 
   panel.onShown.addListener(function tmp(panelWindow) {
-    panel.onShown.removeListener(tmp); // Only run first time
     _window = panelWindow;
 
+    //Send messages that were queued before panel was shown
     var msg;
     while (msg === data) {
       msg = data.shift();
       _window.processMainIncomingMessage(msg);
     }
     _window.respond = function(msg) {
-      console.log('Main.js Sending Message', msg);
       port.postMessage(msg);
     };
 
     //Tell background.js which tab is being inspected
-    panelWindow.respond(chrome.devtools.inspectedWindow);
+    _window.respond(chrome.devtools.inspectedWindow);
   });
 });
