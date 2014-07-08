@@ -28,6 +28,7 @@ body, html {
 
 .tab-content, .tab-pane {
   height: 100%;
+  padding-bottom: 30px;
 }
 
 .inspector-json {
