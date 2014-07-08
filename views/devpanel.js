@@ -12,23 +12,25 @@ var inspector;
 
 function processMainIncomingMessage(msg) {
   console.log('Devpanel Processing Message', msg);
-  if (msg.hasOwnProperty('page')) {
+  if (msg.msgType === 'context') {
     displayMessage('Looks like a Solidus page!');
     //Check if there is an initialized InspectorJSON that hasn't been destroyed
     if ((inspector instanceof InspectorJSON) && (inspector.page)) {
-      inspector.view(msg);
+      inspector.view(msg.msg);
     } else {
       inspector = new InspectorJSON({
         element: 'pagecontext',
-        url: msg.url.path,
-        json: msg
+        url: msg.msg.url.path,
+        json: msg.msg
       });
     }
-  } else if (msg.hasOwnProperty('error')) {
+  } else if (msg.msgType === 'error') {
     if (inspector instanceof InspectorJSON) {
       inspector.destroy();
     }
-    displayMessage(msg.error);
+    displayMessage(msg.msg);
+  } else if (msg.msgType === 'status') {
+    displayMessage(msg.msg);
   } else {
     console.log('Message Not Processed', msg);
   }

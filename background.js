@@ -36,10 +36,12 @@ function processBackgroundIncomingMessage(msg) {
 }
 
 // Function to send a message to main.js
-function notifyDevtools(msg) {
-  console.log('Background.js Sending Message', msg);
+function notifyDevtools(msgType, msg) {
+  var packagedMessage = new Object();
+  packagedMessage.msgType = msgType;
+  packagedMessage.msg = msg;
   ports.forEach(function (port) {
-    port.postMessage(msg);
+    port.postMessage(packagedMessage);
   });
 }
 
@@ -54,18 +56,19 @@ function getJsonResource(tabID) {
       if (xhr.readyState === 4 && isSolidus) { // Is complete Solidus response?
         if(xhr.status !== 200){ // Check that Solidus response didn't fail
           errMsg = 'Failed to get Solidus context. Status: ' + xhr.status;
-          notifyDevtools(JSON.parse('{"error":"' + errMsg + '"}'));
+          notifyDevtools('error', errMsg);
         } else {
           try {
             // Send Solidus JSON to devpanel
-            notifyDevtools(JSON.parse(xhr.responseText));
+            notifyDevtools('context', JSON.parse(xhr.responseText));
+            notifyDevtools('status', 'The x-powered-by header is' + xhr.getResponseHeader('X-Powered-By'));
           } catch  (e) {
-            notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
+            notifyDevtools('error', e);
           }
         }
       } else {
         errMsg = 'Looks like you\'re not inspecting a Solidus Page.';
-        notifyDevtools(JSON.parse('{"error":"' + errMsg + '"}'));
+        notifyDevtools('error', errMsg);
       }
     };
     xhr.send();
