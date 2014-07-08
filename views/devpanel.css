@@ -16,6 +16,7 @@ body, html {
   height: 100%;
   padding: 0;
   position: static;
+  border-right: 1px solid #ddd;
 }
 
 .panel-column {
@@ -37,4 +38,8 @@ body, html {
 
 .btn-group {
   margin-bottom: 10px;
+}
+
+.tabs-left {
+  border: 0;
 }
