@@ -14,8 +14,12 @@ chrome.runtime.onConnect.addListener(function (port) {
     if (i !== -1) ports.splice(i, 1);
   });
   port.onMessage.addListener(function (msg) {
-    console.log('Background.js Recieved Message', msg);
-    processBackgroundIncomingMessage(msg);
+    if (msg.tabId) {
+      tabInspected = msg.tabId;
+      getJsonResource(tabInspected);
+    } else {
+      console.log(msg);
+    }
   });
 });
 
@@ -25,21 +29,13 @@ chrome.tabs.onUpdated.addListener(function (tabId, changes) {
   }
 });
 
-function processBackgroundIncomingMessage(msg) {
-  console.log('Processing Message in Background', msg);
-  if (msg.tabId) {
-    tabInspected = msg.tabId;
-    getJsonResource(tabInspected);
-  } else {
-    console.log(msg);
-  }
-}
-
 // Function to send a message to main.js
-function notifyDevtools(msg) {
-  console.log('Background.js Sending Message', msg);
+function notifyDevtools(msgType, msg) {
+  var packagedMessage = {};
+  packagedMessage.msgType = msgType;
+  packagedMessage.msg = msg;
   ports.forEach(function (port) {
-    port.postMessage(msg);
+    port.postMessage(packagedMessage);
   });
 }
 
@@ -51,21 +47,22 @@ function getJsonResource(tabID) {
     xhr.onreadystatechange = function() {
       var isSolidus, errMsg;
       isSolidus = (xhr.getResponseHeader('X-Powered-By').match(/Solidus/i));
+      notifyDevtools('info', xhr.getResponseHeader('X-Powered-By'));
       if (xhr.readyState === 4 && isSolidus) { // Is complete Solidus response?
         if(xhr.status !== 200){ // Check that Solidus response didn't fail
           errMsg = 'Failed to get Solidus context. Status: ' + xhr.status;
-          notifyDevtools(JSON.parse('{"error":"' + errMsg + '"}'));
+          notifyDevtools('error', errMsg);
         } else {
           try {
             // Send Solidus JSON to devpanel
-            notifyDevtools(JSON.parse(xhr.responseText));
+            notifyDevtools('context', JSON.parse(xhr.responseText));
           } catch  (e) {
-            notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
+            notifyDevtools('error', e);
           }
         }
       } else {
         errMsg = 'Looks like you\'re not inspecting a Solidus Page.';
-        notifyDevtools(JSON.parse('{"error":"' + errMsg + '"}'));
+        notifyDevtools('error', errMsg);
       }
     };
     xhr.send();

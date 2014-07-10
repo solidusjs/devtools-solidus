@@ -11,32 +11,57 @@
 var inspector;
 
 function processMainIncomingMessage(msg) {
-  console.log('Devpanel Processing Message', msg);
-  if (msg.hasOwnProperty('page')) {
-    displayMessage('Looks like a Solidus page!');
-    //Check if there is an initialized InspectorJSON that hasn't been destroyed
-    if ((inspector instanceof InspectorJSON) && (inspector.page)) {
-      inspector.view(msg);
-    } else {
-      inspector = new InspectorJSON({
-        element: 'pagecontext',
-        url: msg.url.path,
-        json: msg
-      });
-    }
-  } else if (msg.hasOwnProperty('error')) {
-    if (inspector instanceof InspectorJSON) {
-      inspector.destroy();
-    }
-    displayMessage(msg.error);
-  } else {
-    console.log('Message Not Processed', msg);
+  switch(msg.msgType) {
+    case 'context':
+      setupInspector(msg.msg);
+      break;
+    case 'error':
+      destroyInspector();
+      showAlert(msg.msg, 'Error:');
+      //activateTab('info');
+      break;
+    case 'status':
+      updateStatus(msg.msg);
+      break;
+    default:
+      console.log('Unhandled Message', msg);
   }
 }
 
-function displayMessage(msg) {
-  document.querySelector('#messageholder').innerHTML = msg;
-  console.log('Updated Panel With Message', msg);
+function setupInspector(context) {
+  if ((inspector instanceof InspectorJSON) && (inspector.page)) {
+    inspector.view(context);
+  } else {
+    inspector = new InspectorJSON({
+      element: 'pagecontext',
+      url: context.url.path,
+      json: context
+    });
+  }
+}
+
+function destroyInspector() {
+  if (inspector instanceof InspectorJSON) {
+    inspector.destroy();
+  }
+}
+
+function createAlert(info, label, alertClass) { //Create a Bootstrap HTML alert
+  var infoClass = alertClass?alertClass:'alert-info';
+  var infoLabel = label?'<strong>' + label +'</strong> ':'';
+  return '<div class="alert ' + infoClass +
+  ' alert-dismissible" role="alert"><button type="button" class="close"' +
+  ' data-dismiss="alert"><span aria-hidden="true">&times;</span>' +
+  '<span class="sr-only">Close</span></button>' + infoLabel + info + '</div>';
+}
+
+function showAlert(message, label, alertClass){ //Show an alert
+  var theAlert = createAlert(message, label, alertClass);
+  document.querySelector('#messageholder').innerHTML += theAlert;
+}
+
+function updateStatus(status) { //Update status panel in footer
+  document.querySelector('#pluginstatus').innerHTML = status;
 }
 
 var socket = io('http://localhost:8081');
