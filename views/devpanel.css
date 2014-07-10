@@ -32,6 +32,10 @@ body, html {
   padding-bottom: 30px;
 }
 
+.tab-pane :first-child {
+  margin-top: 0;
+}
+
 .inspector-json {
   padding: 0;
 }

@@ -6,22 +6,46 @@
 // Tell JSHint that processMainIncomingMessage is definedhere but used elsewhere
 /* exported processMainIncomingMessage */
 // Tell JSHint about the socket.io global
-/* global io */
+/* global io, $ */
 
 var inspector;
+
+var socket = io('http://localhost:8081');
+socket.on('connect', function(){
+  socket.on('log', function(data){
+    addToLog(data.message);
+    });
+  socket.on('disconnect', function(){
+    document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
+    });
+});
 
 function processMainIncomingMessage(msg) {
   switch(msg.msgType) {
     case 'context':
-      setupInspector(msg.msg);
+      setupInspector(msg.payload);
       break;
     case 'error':
-      destroyInspector();
-      showAlert(msg.msg, 'Error:');
-      //activateTab('info');
+      showAlert(msg.payload, 'Error:', 'danger');
       break;
     case 'status':
-      updateStatus(msg.msg);
+      updateStatus(msg.payload);
+      break;
+    case 'action':
+
+      switch (msg.payload) {
+        case 'shutdown':
+          destroyInspector();
+          $('#panelTabs a[href="#info"]').tab('show');
+          var contextPane = document.querySelector('#pagecontext');
+          contextPane.innerHTML = 'No context. See Info tab.';
+          break;
+        case 'reload':
+          clearAlerts();
+          break;
+        default:
+      }
+
       break;
     default:
       console.log('Unhandled Message', msg);
@@ -47,9 +71,9 @@ function destroyInspector() {
 }
 
 function createAlert(info, label, alertClass) { //Create a Bootstrap HTML alert
-  var infoClass = alertClass?alertClass:'alert-info';
+  var infoClass = alertClass?alertClass:'info';
   var infoLabel = label?'<strong>' + label +'</strong> ':'';
-  return '<div class="alert ' + infoClass +
+  return '<div class="alert alert-' + infoClass +
   ' alert-dismissible" role="alert"><button type="button" class="close"' +
   ' data-dismiss="alert"><span aria-hidden="true">&times;</span>' +
   '<span class="sr-only">Close</span></button>' + infoLabel + info + '</div>';
@@ -60,21 +84,19 @@ function showAlert(message, label, alertClass){ //Show an alert
   document.querySelector('#messageholder').innerHTML += theAlert;
 }
 
+function clearAlerts(){
+  document.querySelector('#messageholder').innerHTML = '';
+}
+
 function updateStatus(status) { //Update status panel in footer
   document.querySelector('#pluginstatus').innerHTML = status;
 }
 
-var socket = io('http://localhost:8081');
-socket.on('connect', function(){
-  socket.on('log', function(data){
-    var logContainer = document.querySelector('#serverlogs');
-    logContainer.innerHTML += data.message + '\n';
-    logContainer.scrollTop = logContainer.scrollHeight;
-    });
-  socket.on('disconnect', function(){
-    document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
-    });
-});
+function addToLog(msg) {
+  var logContainer = document.querySelector('#serverlogs');
+  logContainer.innerHTML += msg + '\n';
+  logContainer.scrollTop = logContainer.scrollHeight;
+}
 
 function clearLog() {
   document.querySelector('#serverlogs').innerHTML = '';

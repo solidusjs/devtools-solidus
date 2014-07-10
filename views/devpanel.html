@@ -14,7 +14,7 @@
 </head>
 <body>
   <div class="sidetab-column col-xs-3">
-    <ul class="nav nav-tabs tabs-left">
+    <ul class="nav nav-tabs tabs-left" id="panelTabs">
       <li><a href="#context" data-toggle="tab">Context</a></li>
       <li><a href="#logs" data-toggle="tab">Logs</a></li>
       <li><a href="#info" data-toggle="tab">Info</a></li>
@@ -32,7 +32,9 @@
         <pre id="serverlogs" class="scroll-panel"></pre>
       </div>
       <div class="tab-pane" id="info">
-        <div id="messageholder" class="alert alert-info" role="alert"></div>
+        <h3>Solidus DevTools v0.1.0</h3>
+        <p>The site you are inspecting is <span id="pluginstatus">a mystery</span>.</p>
+        <div id="messageholder"></div>
       </div>
     </div>
   </div>
