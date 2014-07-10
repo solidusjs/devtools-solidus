@@ -38,7 +38,8 @@ function processMainIncomingMessage(msg) {
           destroyInspector();
           $('#panelTabs a[href="#info"]').tab('show');
           var contextPane = document.querySelector('#pagecontext');
-          contextPane.innerHTML = 'No context. See Info tab.';
+          var cStatus = createAlert('No context. See Info tab.', '', 'danger');
+          contextPane.innerHTML = cStatus;
           break;
         case 'reload':
           clearAlerts();

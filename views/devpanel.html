@@ -15,7 +15,7 @@
 <body>
   <div class="sidetab-column col-xs-3">
     <ul class="nav nav-tabs tabs-left" id="panelTabs">
-      <li><a href="#context" data-toggle="tab"><span class="icon-json"></span> Context</a></li>
+      <li class="active"><a href="#context" data-toggle="tab"><span class="icon-json"></span> Context</a></li>
       <li><a href="#logs" data-toggle="tab"><span class="icon-console"></span> Logs</a></li>
       <li><a href="#info" data-toggle="tab"><span class="icon-info"></span> Info</a></li>
     </ul>
@@ -26,15 +26,17 @@
         <div id="pagecontext" class="scroll-panel"></div>
       </div>
       <div class="tab-pane" id="logs">
-        <div class="btn-group">
-          <button type="button" id="logclear" title="Clear server log." class="btn btn-default"><i class="glyphicon glyphicon-ban-circle"></i></button>
+        <div class="btn-group server-log-buttons">
+          <button type="button" id="logclear" title="Clear server log." class="btn btn-default"><span class="icon-clear"></span></button>
         </div>
         <pre id="serverlogs" class="scroll-panel"></pre>
       </div>
       <div class="tab-pane" id="info">
-        <h3>Solidus DevTools v0.1.0</h3>
-        <p>The site you are inspecting is <span id="pluginstatus">a mystery</span>.</p>
-        <div id="messageholder"></div>
+        <div class="scroll-panel">
+          <h3>Solidus DevTools v0.1.0</h3>
+          <p>The site you are inspecting is <span id="pluginstatus">a mystery</span>.</p>
+          <div id="messageholder"></div>
+        </div>
       </div>
     </div>
   </div>
