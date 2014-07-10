@@ -14,8 +14,12 @@ chrome.runtime.onConnect.addListener(function (port) {
     if (i !== -1) ports.splice(i, 1);
   });
   port.onMessage.addListener(function (msg) {
-    console.log('Background.js Recieved Message', msg);
-    processBackgroundIncomingMessage(msg);
+    if (msg.tabId) {
+      tabInspected = msg.tabId;
+      getJsonResource(tabInspected);
+    } else {
+      console.log(msg);
+    }
   });
 });
 
@@ -25,19 +29,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changes) {
   }
 });
 
-function processBackgroundIncomingMessage(msg) {
-  console.log('Processing Message in Background', msg);
-  if (msg.tabId) {
-    tabInspected = msg.tabId;
-    getJsonResource(tabInspected);
-  } else {
-    console.log(msg);
-  }
-}
-
 // Function to send a message to main.js
 function notifyDevtools(msgType, msg) {
-  var packagedMessage = new Object();
+  var packagedMessage = {};
   packagedMessage.msgType = msgType;
   packagedMessage.msg = msg;
   ports.forEach(function (port) {
@@ -53,6 +47,7 @@ function getJsonResource(tabID) {
     xhr.onreadystatechange = function() {
       var isSolidus, errMsg;
       isSolidus = (xhr.getResponseHeader('X-Powered-By').match(/Solidus/i));
+      notifyDevtools('info', xhr.getResponseHeader('X-Powered-By'));
       if (xhr.readyState === 4 && isSolidus) { // Is complete Solidus response?
         if(xhr.status !== 200){ // Check that Solidus response didn't fail
           errMsg = 'Failed to get Solidus context. Status: ' + xhr.status;
@@ -61,7 +56,6 @@ function getJsonResource(tabID) {
           try {
             // Send Solidus JSON to devpanel
             notifyDevtools('context', JSON.parse(xhr.responseText));
-            notifyDevtools('status', 'The x-powered-by header is' + xhr.getResponseHeader('X-Powered-By'));
           } catch  (e) {
             notifyDevtools('error', e);
           }
