@@ -1,14 +1,47 @@
 <!doctype html>
 <html>
 <head>
+
+  <link rel="stylesheet" href="../bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
   <script src="../node_modules/socket.io-client/socket.io.js"></script>
   <script src="devpanel.js"></script>
   <script src="../bower_components/Inspector-JSON/inspector-json.js"></script>
-  <link href="../bower_components/Inspector-JSON/inspector-json.css" media="all" rel="stylesheet" type="text/css">
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css">
+  <link href="../bower_components/bootstrap-vertical-tabs/bootstrap.vertical-tabs.min.css" media="all" rel="stylesheet" type="text/css">
+  <link href="devpanel.css" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div id="messageholder"></div>
-  <div id="pagecontext"></div>
-  <pre id="serverlogs"></pre>
+  <div class="sidetab-column col-xs-3" id="sidePanel">
+    <ul class="nav nav-tabs tabs-left" id="panelTabs">
+      <li class="active"><a href="#context" data-toggle="tab"><span class="icon-json"></span> Context</a></li>
+      <li><a href="#logs" data-toggle="tab"><span class="icon-console"></span> Logs</a></li>
+      <li><a href="#info" data-toggle="tab"><span class="icon-info"></span> Info</a></li>
+    </ul>
+  </div>
+  <div class="panel-column col-xs-9">
+    <div class="tab-content">
+      <div class="tab-pane active" id="context">
+        <div id="pagecontext" class="scroll-panel"></div>
+      </div>
+      <div class="tab-pane" id="logs">
+        <div class="btn-group server-log-buttons">
+          <button type="button" id="logclear" title="Clear server log." class="btn btn-default"><span class="icon-clear"></span></button>
+        </div>
+        <pre id="serverlogs" class="scroll-panel"></pre>
+      </div>
+      <div class="tab-pane" id="info">
+        <div class="scroll-panel">
+          <h3>Solidus DevTools v0.1.0</h3>
+          <p>The site you are inspecting is <span id="pluginstatus">a mystery</span>.</p>
+          <div id="messageholder"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

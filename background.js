@@ -14,32 +14,29 @@ chrome.runtime.onConnect.addListener(function (port) {
     if (i !== -1) ports.splice(i, 1);
   });
   port.onMessage.addListener(function (msg) {
-    console.log('Background.js Recieved Message', msg);
-    processBackgroundIncomingMessage(msg);
+    if (msg.tabId) {
+      tabInspected = msg.tabId;
+      getJsonResource(tabInspected);
+    } else {
+      console.log(msg);
+    }
   });
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changes) {
   if (tabId === tabInspected && changes.status === 'complete') {
     getJsonResource(tabId);
+    notifyDevtools('action', 'reload');
   }
 });
 
-function processBackgroundIncomingMessage(msg) {
-  console.log('Processing Message in Background', msg);
-  if (msg.tabId) {
-    tabInspected = msg.tabId;
-    getJsonResource(tabInspected);
-  } else {
-    console.log(msg);
-  }
-}
-
 // Function to send a message to main.js
-function notifyDevtools(msg) {
-  console.log('Background.js Sending Message', msg);
+function notifyDevtools(msgType, payload) {
+  var packagedMessage = {};
+  packagedMessage.msgType = msgType;
+  packagedMessage.payload = payload;
   ports.forEach(function (port) {
-    port.postMessage(msg);
+    port.postMessage(packagedMessage);
   });
 }
 
@@ -49,23 +46,29 @@ function getJsonResource(tabID) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', jsonResourceURL, true);
     xhr.onreadystatechange = function() {
-      var isSolidus, errMsg;
-      isSolidus = (xhr.getResponseHeader('X-Powered-By').match(/Solidus/i));
-      if (xhr.readyState === 4 && isSolidus) { // Is complete Solidus response?
-        if(xhr.status !== 200){ // Check that Solidus response didn't fail
-          errMsg = 'Failed to get Solidus context. Status: ' + xhr.status;
-          notifyDevtools(JSON.parse('{"error":"' + errMsg + '"}'));
-        } else {
-          try {
-            // Send Solidus JSON to devpanel
-            notifyDevtools(JSON.parse(xhr.responseText));
-          } catch  (e) {
-            notifyDevtools(JSON.parse('{"error":"' + e + '"}'));
-          }
+      if (xhr.readyState !== 4) return; //quickly return if not complete request
+      var xpbHeader = xhr.getResponseHeader('X-Powered-By') || 'unknown';
+      if (!xpbHeader.match(/Solidus/i)) { //quickly return if not solidus
+        notifyDevtools('error', 'No Solidus header detected.');
+        notifyDevtools('status', '<b>not</b> running Solidus 0.1.7 or greater');
+        notifyDevtools('action', 'shutdown');
+        return;
+      }
+      notifyDevtools('status', 'running ' + xpbHeader);
+      if (xhr.status !== 200) {
+        notifyDevtools('error', 'Solidus JSON status: ' + xhr.status);
+        notifyDevtools('action', 'soft-shutdown');
+        return;
+      }
+      if (xhr.status === 200) {
+        try {
+          notifyDevtools('context', JSON.parse(xhr.responseText));
+          notifyDevtools('action', 'reload');
+        } catch  (e) {
+          notifyDevtools('error', e);
         }
       } else {
-        errMsg = 'Looks like you\'re not inspecting a Solidus Page.';
-        notifyDevtools(JSON.parse('{"error":"' + errMsg + '"}'));
+        notifyDevtools('status', 'what' + xhr.status);
       }
     };
     xhr.send();

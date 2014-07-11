@@ -1,0 +1,231 @@
+/* Basic reset, typography, and icons */
+body, html {
+  font-family: 'Lucida Grande', 'Segoe UI', Tahoma, sans-serif;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@font-face {
+  font-family: 'solidusicons';
+  src:url('solidusicons.woff?8i2fev') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'solidusicons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before {
+  margin-right: 1em;
+}
+
+.icon-console:before {
+  content: "\e603";
+}
+.icon-info:before {
+  content: "\e601";
+}
+.icon-clear:before {
+  content: "\e600";
+}
+.icon-json:before {
+  content: "\e602";
+}
+
+/*Side tabs */
+.sidetab-column {
+  height: 100%;
+  padding: 0;
+  border-right: 1px solid #a3a3a3;
+  background: #e8e8e8;
+  width: 200px;
+  max-width: 90%;
+}
+
+.ui-resizable-e {
+  cursor: ew-resize;
+}
+
+.nav-tabs>li>a {
+  font-size: 12px;
+  line-height: 12px;
+  color: #303942;
+  border-radius: 0;
+  border: 0;
+}
+
+.nav-tabs>li>a:hover {
+  border-right: 1px;
+  border-right-color: #a3a3a3;
+  background: inherit;
+}
+
+.nav-tabs>li.active>a {
+  background: #3879d9;
+  border: 0;
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.33) 1px 1px 0;
+}
+
+.nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+  border: 0;
+  color: #fff;
+  background: #3879d9;
+}
+
+.nav-tabs>li>a[data-toggle='none'] {
+  display: none;
+}
+
+/* Main panel and tab content */
+
+.panel-column {
+  height: 100%;
+  position: static;
+  padding: 0;
+  width: 100%;
+  float: none;
+}
+
+.tab-content, .tab-pane {
+  height: 100%;
+}
+
+.tab-pane :first-child {
+  margin-top: 0;
+}
+
+.tabs-left {
+  border: 0;
+}
+
+/* Server log toolbar */
+
+.server-log-buttons {
+  height: 23px;
+  font-size: 12px;
+  color: #303942;
+  background: white;
+}
+
+.server-log-buttons .btn {
+  padding: 0 10px;
+  line-height: 23px;
+  border: 0;
+  border-radius: 0;
+  color: #676767;
+  font-size: 14px;
+}
+
+.server-log-buttons .btn:hover {
+  color: #404040;
+  background-color: inherit;
+}
+
+/* Panel typography and layout */
+.scroll-panel {
+  overflow: scroll;
+  border-top-color: #E6E6E6;
+  padding: 10px;
+  max-height: 100%;
+}
+
+pre.scroll-panel, .inspector-json {
+  border-width: 1px 0 0 0;
+  font-size: 11px;
+  font-family: Menlo, monospace;
+  background: #fff;
+  border-radius: 0;
+  max-height: 90%;
+}
+
+.inspector-json * {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.inspector-json ol, .inspector-json ul {
+  list-style-type: none;
+  padding: 0 0 0 2em;
+}
+
+.inspector-json > ol,
+.inspector-json > ul {
+  padding: 0;
+  border-left: none;
+}
+
+.inspector-json var {
+  font-style: normal;
+}
+
+.inspector-json li > strong,
+.inspector-json li > a {
+  margin-right: 8px;
+}
+
+.inspector-json li > a {
+  text-decoration: none;
+  color: rgb(136, 19, 145);
+}
+
+.inspector-json li > a:after {
+  content: ':';
+}
+
+.inspector-json li > strong {
+  color: rgb(136, 19, 145);
+}
+
+.inspector-json li strong {
+  font-weight: normal;
+}
+
+.inspector-json li.object > a:before,
+.inspector-json li.array > a:before {
+  content: '\25BC'; /* down pointing triangle */
+  display: inline-block;
+  width: 10px;
+  margin-right: 5px;
+  color: #808080;
+}
+
+.inspector-json li.collapsed > a:before {
+  content: '\25B6'; /* right pointing triangle */
+}
+
+.inspector-json li.collapsed > ol,
+.inspector-json li.collapsed > ul {
+  display: none;
+}
+
+.inspector-json li > span {
+  color: rgb(196, 26, 22);
+}
+
+.inspector-json li > em {
+  color: rgb(48, 57, 66);
+  font-style: normal;
+}
+
+.inspector-json li > var {
+  color: rgb(28, 0, 207);
+}
+
+.inspector-json li > i {
+  color: rgb( 150, 150, 150 );
+}
