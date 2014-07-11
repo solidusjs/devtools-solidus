@@ -47,7 +47,7 @@ function getJsonResource(tabID) {
     xhr.open('GET', jsonResourceURL, true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) return; //quickly return if not complete request
-      var xpbHeader = xhr.getResponseHeader('X-Powered-By');
+      var xpbHeader = xhr.getResponseHeader('X-Powered-By') || 'unknown';
       if (!xpbHeader.match(/Solidus/i)) { //quickly return if not solidus
         notifyDevtools('error', 'No Solidus header detected.');
         notifyDevtools('status', '<b>not</b> running Solidus 0.1.7 or greater');
@@ -67,6 +67,8 @@ function getJsonResource(tabID) {
         } catch  (e) {
           notifyDevtools('error', e);
         }
+      } else {
+        notifyDevtools('status', 'what' + xhr.status);
       }
     };
     xhr.send();
