@@ -50,6 +50,7 @@ body, html {
   overflow: scroll;
   border-top-color: #E6E6E6;
   padding: 10px;
+  max-height: 100%;
 }
 
 pre.scroll-panel {
