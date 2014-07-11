@@ -54,7 +54,7 @@ function processMainIncomingMessage(msg) {
 }
 
 function setupInspector(context) {
-  if ((inspector instanceof InspectorJSON) && (inspector.page)) {
+  if ((inspector instanceof InspectorJSON)) {
     inspector.view(context);
   } else {
     inspector = new InspectorJSON({
@@ -68,6 +68,7 @@ function setupInspector(context) {
 function destroyInspector() {
   if (inspector instanceof InspectorJSON) {
     inspector.destroy();
+    inspector = {}; // inspector.destroy() doesn't completely reset the object
   }
 }
 
