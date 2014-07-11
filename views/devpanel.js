@@ -107,4 +107,5 @@ function clearLog() {
 window.onload = function() {
   var clearButton = document.querySelector('#logclear');
   clearButton.addEventListener('click', clearLog, false);
+  $('#sidePanel').resizable({ minWidth: 120, handles: 'e'});
 };

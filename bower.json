@@ -28,7 +28,8 @@
   "dependencies": {
     "bootstrap": "~3.2.0",
     "Inspector-JSON": "SparkartGroupInc/Inspector-JSON#e6bec9fe4cc7551cd46f44bafed6891620a5e47d",
-    "bootstrap-vertical-tabs": "~1.1.0"
+    "bootstrap-vertical-tabs": "~1.1.0",
+    "jquery.ui": "~1.11.0"
   },
   "resolutions": {
     "bootstrap": "~3.2.0"

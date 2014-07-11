@@ -65,10 +65,14 @@ pre.scroll-panel {
 .sidetab-column {
   height: 100%;
   padding: 0;
-  position: static;
   border-right: 1px solid #a3a3a3;
   background: #e8e8e8;
   width: 200px;
+  max-width: 90%;
+}
+
+.ui-resizable-e {
+  cursor: ew-resize;
 }
 
 .nav-tabs>li>a {
