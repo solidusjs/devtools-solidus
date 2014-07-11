@@ -40,6 +40,10 @@ function notifyDevtools(msgType, payload) {
   });
 }
 
+function isSolidus(xpbHeader) {
+    return xpbHeader.match(/Solidus/i);
+}
+
 function getJsonResource(tabID) {
   chrome.tabs.get(tabID, function(tab) {
     var jsonResourceURL = tab.url+'.json';
@@ -48,7 +52,7 @@ function getJsonResource(tabID) {
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) return; //quickly return if not complete request
       var xpbHeader = xhr.getResponseHeader('X-Powered-By') || 'unknown';
-      if (!xpbHeader.match(/Solidus/i)) { //quickly return if not solidus
+      if (!isSolidus(xpbHeader)) { //quickly return if not solidus
         notifyDevtools('error', 'No Solidus header detected.');
         notifyDevtools('status', '<b>not</b> running Solidus 0.1.7 or greater');
         notifyDevtools('action', 'shutdown');
