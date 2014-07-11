@@ -1,3 +1,4 @@
+/* Basic reset, typography, and icons */
 body, html {
   font-family: 'Lucida Grande', 'Segoe UI', Tahoma, sans-serif;
   height: 100%;
@@ -45,23 +46,7 @@ body, html {
   content: "\e602";
 }
 
-
-.scroll-panel {
-  overflow: scroll;
-  border-top-color: #E6E6E6;
-  padding: 10px;
-  max-height: 100%;
-}
-
-pre.scroll-panel {
-  border-width: 1px 0 0 0;
-  font-size: 11px;
-  font-family: Menlo, monospace;
-  background: #fff;
-  border-radius: 0;
-  max-height: 90%;
-}
-
+/*Side tabs */
 .sidetab-column {
   height: 100%;
   padding: 0;
@@ -106,6 +91,8 @@ pre.scroll-panel {
   display: none;
 }
 
+/* Main panel and tab content */
+
 .panel-column {
   height: 100%;
   position: static;
@@ -121,6 +108,12 @@ pre.scroll-panel {
 .tab-pane :first-child {
   margin-top: 0;
 }
+
+.tabs-left {
+  border: 0;
+}
+
+/* Server log toolbar */
 
 .server-log-buttons {
   height: 23px;
@@ -143,6 +136,96 @@ pre.scroll-panel {
   background-color: inherit;
 }
 
-.tabs-left {
-  border: 0;
+/* Panel typography and layout */
+.scroll-panel {
+  overflow: scroll;
+  border-top-color: #E6E6E6;
+  padding: 10px;
+  max-height: 100%;
+}
+
+pre.scroll-panel, .inspector-json {
+  border-width: 1px 0 0 0;
+  font-size: 11px;
+  font-family: Menlo, monospace;
+  background: #fff;
+  border-radius: 0;
+  max-height: 90%;
+}
+
+.inspector-json * {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.inspector-json ol, .inspector-json ul {
+  list-style-type: none;
+  padding: 0 0 0 2em;
+}
+
+.inspector-json > ol,
+.inspector-json > ul {
+  padding: 0;
+  border-left: none;
+}
+
+.inspector-json var {
+  font-style: normal;
+}
+
+.inspector-json li > strong,
+.inspector-json li > a {
+  margin-right: 8px;
+}
+
+.inspector-json li > a {
+  text-decoration: none;
+  color: rgb(136, 19, 145);
+}
+
+.inspector-json li > a:after {
+  content: ':';
+}
+
+.inspector-json li > strong {
+  color: rgb(136, 19, 145);
+}
+
+.inspector-json li strong {
+  font-weight: normal;
+}
+
+.inspector-json li.object > a:before,
+.inspector-json li.array > a:before {
+  content: '\25BC'; /* down pointing triangle */
+  display: inline-block;
+  width: 10px;
+  margin-right: 5px;
+  color: #808080;
+}
+
+.inspector-json li.collapsed > a:before {
+  content: '\25B6'; /* right pointing triangle */
+}
+
+.inspector-json li.collapsed > ol,
+.inspector-json li.collapsed > ul {
+  display: none;
+}
+
+.inspector-json li > span {
+  color: rgb(196, 26, 22);
+}
+
+.inspector-json li > em {
+  color: rgb(48, 57, 66);
+  font-style: normal;
+}
+
+.inspector-json li > var {
+  color: rgb(28, 0, 207);
+}
+
+.inspector-json li > i {
+  color: rgb( 150, 150, 150 );
 }
