@@ -61,14 +61,13 @@ function processMainIncomingMessage(msg) {
 
 function setupInspector(context) {
   if ((inspector instanceof InspectorJSON)) {
-    inspector.view(context);
-  } else {
-    inspector = new InspectorJSON({
-      element: 'pagecontext',
-      url: context.url.path,
-      json: context
-    });
+    destroyInspector();
   }
+  inspector = new InspectorJSON({
+    element: 'pagecontext',
+    url: (context.url.hostname + context.url.path),
+    json: context
+  });
 }
 
 function destroyInspector() {
