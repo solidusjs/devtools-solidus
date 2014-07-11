@@ -37,12 +37,18 @@ function processMainIncomingMessage(msg) {
         case 'shutdown':
           destroyInspector();
           $('#panelTabs a[href="#info"]').tab('show');
-          var contextPane = document.querySelector('#pagecontext');
-          var cStatus = createAlert('No context. See Info tab.', '', 'danger');
-          contextPane.innerHTML = cStatus;
+          $('#panelTabs a[href="#context"]').attr('data-toggle', 'none');
+          $('#panelTabs a[href="#logs"]').attr('data-toggle', 'none');
+          break;
+        case 'soft-shutdown':
+          destroyInspector();
+          $('#panelTabs a[href="#info"]').tab('show');
+          $('#panelTabs a[href="#context"]').attr('data-toggle', 'none');
           break;
         case 'reload':
           clearAlerts();
+          $('#panelTabs a[href="#context"]').attr('data-toggle', 'tab');
+          $('#panelTabs a[href="#logs"]').attr('data-toggle', 'tab');
           break;
         default:
       }

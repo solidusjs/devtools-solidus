@@ -102,6 +102,10 @@ pre.scroll-panel {
   background: #3879d9;
 }
 
+.nav-tabs>li>a[data-toggle='none'] {
+  display: none;
+}
+
 .panel-column {
   height: 100%;
   position: static;

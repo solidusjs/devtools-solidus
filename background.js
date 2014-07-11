@@ -57,7 +57,7 @@ function getJsonResource(tabID) {
       notifyDevtools('status', 'running ' + xpbHeader);
       if (xhr.status !== 200) {
         notifyDevtools('error', 'Solidus JSON status: ' + xhr.status);
-        notifyDevtools('action', 'shutdown');
+        notifyDevtools('action', 'soft-shutdown');
         return;
       }
       if (xhr.status === 200) {
