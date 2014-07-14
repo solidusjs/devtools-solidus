@@ -33,8 +33,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jshint', 'jasmine']);
   grunt.registerTask('test', ['jshint', 'jasmine']);
-
-  //TODO: Add Jasmine tests to build task
-  grunt.registerTask('build', ['jshint', 'run:crxmake']);
+  grunt.registerTask('build', ['jshint', 'jasmine', 'run:crxmake']);
 
 };

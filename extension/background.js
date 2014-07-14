@@ -41,7 +41,11 @@ function notifyDevtools(msgType, payload) {
 }
 
 function isSolidus(xpbHeader) {
-    return xpbHeader.match(/Solidus/i);
+  if (xpbHeader.match(/Solidus/i)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function getJsonResource(tabID) {
