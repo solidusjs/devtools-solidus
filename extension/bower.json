@@ -7,7 +7,7 @@
     "Eric Lanehart <eric@sparkart.com>"
   ],
   "description": "Adds Solidus debugging tools to the Chrome Developer Tools.",
-  "main": "views/devpanel.html",
+  "main": "app/devpanel.html",
   "moduleType": [
     "node"
   ],
@@ -29,7 +29,8 @@
     "bootstrap": "~3.2.0",
     "Inspector-JSON": "SparkartGroupInc/Inspector-JSON#e6bec9fe4cc7551cd46f44bafed6891620a5e47d",
     "bootstrap-vertical-tabs": "~1.1.0",
-    "jquery-ui": "~1.11.0"
+    "jquery-ui": "~1.11.0",
+    "socket.io-client": "^1.0.6"
   },
   "resolutions": {
     "bootstrap": "~3.2.0"

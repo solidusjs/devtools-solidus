@@ -3,7 +3,7 @@
 // chrome.devtools.*
 // chrome.extension.*
 
-chrome.devtools.panels.create('Solidus', 'solidus.png', 'views/devpanel.html',
+chrome.devtools.panels.create('Solidus', 'icon-128.png', 'devpanel.html',
 function(panel){
 
   var _window;

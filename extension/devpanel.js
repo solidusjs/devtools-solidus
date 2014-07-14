@@ -10,15 +10,17 @@
 
 var inspector;
 
-var socket = io('http://localhost:8081');
-socket.on('connect', function(){
-  socket.on('log', function(data){
-    addToLog(data.message);
-    });
-  socket.on('disconnect', function(){
-    document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
-    });
-});
+if (typeof io !== 'undefined') {
+  var socket = io('http://localhost:8081');
+  socket.on('connect', function(){
+    socket.on('log', function(data){
+      addToLog(data.message);
+      });
+    socket.on('disconnect', function(){
+      document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
+      });
+  });
+}
 
 function processMainIncomingMessage(msg) {
   switch(msg.msgType) {
@@ -100,17 +102,23 @@ function updateStatus(status) { //Update status panel in footer
 }
 
 function addToLog(msg) {
-  var logContainer = document.querySelector('#serverlogs');
-  logContainer.innerHTML += msg + '\n';
-  logContainer.scrollTop = logContainer.scrollHeight;
+  if (document.querySelector('#serverlogs')) {
+    var logContainer = document.querySelector('#serverlogs');
+    logContainer.innerHTML += msg + '\n';
+    logContainer.scrollTop = logContainer.scrollHeight;
+  }
 }
 
 function clearLog() {
   document.querySelector('#serverlogs').innerHTML = '';
 }
 
-window.onload = function() {
-  var clearButton = document.querySelector('#logclear');
-  clearButton.addEventListener('click', clearLog, false);
-  $('#sidePanel').resizable({ minWidth: 120, handles: 'e'});
-};
+window.addEventListener('load', function() {
+  if (document.querySelector('#logclear')) {
+    var clearButton = document.querySelector('#logclear');
+    clearButton.addEventListener('click', clearLog, false);
+  }
+  if (document.querySelector('#sidePanel')) {
+    $('#sidePanel').resizable({ minWidth: 120, handles: 'e'});
+  }
+}, false);
