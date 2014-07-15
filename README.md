@@ -6,7 +6,7 @@ A Google Chrome developer tools extension for use by [Solidus](https://github.co
 * Clone the repo with `git clone https://github.com/solidusjs/devtools-solidus.git devtools-solidus`
 
 #Installation
-* Find the `.crx` file you want in the `dist/` directory. We recommend using the latest version, or you can manually build your own (see below).
+* Download the `.crx` file from the latest release, or you can manually build your own (see below).
 * Open [chrome://extensions](chrome://extensions) in Chrome.
 * Drag and drop the `.crx` file onto the page and click "Add" to install.
 
