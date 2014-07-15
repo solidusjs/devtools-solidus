@@ -17,7 +17,7 @@ if (typeof io !== 'undefined') {
       addToLog(data.message);
       });
     socket.on('disconnect', function(){
-      document.querySelector('#serverlogs').innerHTML = 'Socket Disconnected';
+      document.getElementById('serverlogs').innerHTML = 'Socket Disconnected';
       });
   });
 }
@@ -90,35 +90,35 @@ function createAlert(info, label, alertClass) { //Create a Bootstrap HTML alert
 
 function showAlert(message, label, alertClass){ //Show an alert
   var theAlert = createAlert(message, label, alertClass);
-  document.querySelector('#messageholder').innerHTML += theAlert;
+  document.getElementById('messageholder').innerHTML += theAlert;
 }
 
 function clearAlerts(){
-  document.querySelector('#messageholder').innerHTML = '';
+  document.getElementById('messageholder').innerHTML = '';
 }
 
 function updateStatus(status) { //Update status panel in footer
-  document.querySelector('#pluginstatus').innerHTML = status;
+  document.getElementById('pluginstatus').innerHTML = status;
 }
 
 function addToLog(msg) {
-  if (document.querySelector('#serverlogs')) {
-    var logContainer = document.querySelector('#serverlogs');
+  if (document.getElementById('serverlogs')) {
+    var logContainer = document.getElementById('serverlogs');
     logContainer.innerHTML += msg + '\n';
     logContainer.scrollTop = logContainer.scrollHeight;
   }
 }
 
 function clearLog() {
-  document.querySelector('#serverlogs').innerHTML = '';
+  document.getElementById('serverlogs').innerHTML = '';
 }
 
 window.addEventListener('load', function() {
-  if (document.querySelector('#logclear')) {
-    var clearButton = document.querySelector('#logclear');
+  if (document.getElementById('logclear')) {
+    var clearButton = document.getElementById('logclear');
     clearButton.addEventListener('click', clearLog, false);
   }
-  if (document.querySelector('#sidePanel')) {
+  if (document.getElementById('sidePanel')) {
     $('#sidePanel').resizable({ minWidth: 120, handles: 'e'});
   }
 }, false);
