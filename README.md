@@ -15,4 +15,6 @@ A Google Chrome developer tools extension for use by [Solidus](https://github.co
 * Run `grunt build` to generate an installable `.crx` file in the `dist/` directory.
 
 #Usage
+* The extension currently requires a pre-release version of Solidus. To use this version, update `package.json` to point to `"git+https://github.com/solidusjs/solidus.git#2b830f4c08"`. A `log_server_port` port must also be specified in order for log streaming to work. Note that this feature won't work currently with the [vagrant-solidus plugin](https://github.com/solidusjs/vagrant-solidus).
+
 * Once the extension is installed, you can open Chrome's Developer Tools and you should see a "Solidus" tab.
