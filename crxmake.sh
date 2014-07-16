@@ -1,6 +1,7 @@
 #!/bin/bash -e
 #
 # Purpose: Pack a Chromium extension directory into crx format
+# Adapted from http://developer.chrome.com/extensions/crx
 
 if test $# -ne 2; then
   echo "Usage: crxmake.sh <extension dir> <pem path>"

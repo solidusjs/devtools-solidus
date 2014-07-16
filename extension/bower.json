@@ -7,7 +7,7 @@
     "Eric Lanehart <eric@sparkart.com>"
   ],
   "description": "Adds Solidus debugging tools to the Chrome Developer Tools.",
-  "main": "app/devpanel.html",
+  "main": "devpanel.html",
   "moduleType": [
     "node"
   ],
