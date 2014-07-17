@@ -11,6 +11,7 @@ A Google Chrome developer tools extension for use by [Solidus](https://github.co
 * Drag and drop the `.crx` file onto the page and click "Add" to install.
 
 #Manually Build
+* In order to manually build the extension, you will need a copy of the key file that has been generated for this extension. Once you obtain the key file, copy it to `cert/key.pem`.
 * Run `npm install` to install dependencies (npm will automatically run a script to install front-end dependencies using bower).
 * Run `grunt build` to generate an installable `.crx` file in the `dist/` directory.
 
