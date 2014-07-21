@@ -150,7 +150,11 @@ pre.scroll-panel, .inspector-json {
   font-family: Menlo, monospace;
   background: #fff;
   border-radius: 0;
-  max-height: 90%;
+  height: 100%;
+}
+
+.scroll-panel.has-toolbar {
+  height: calc(100% - 23px);
 }
 
 .inspector-json * {
