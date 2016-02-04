@@ -1,6 +1,6 @@
 {
   "name": "devtools-solidus",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Adds Solidus debugging tools to the Chrome Developer Tools.",
   "keywords": [
     "Solidus",
